@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  postgresql:
+    image: bitnami/postgresql
+    container_name: postgresql
+    ports:
+      - "5432:5432"
+    volumes:
+      - data_postgres:/var/lib/postgresql
+    environment:
+      POSTGRESQL_USERNAME: user
+      POSTGRESQL_PASSWORD: root
+      POSTGRESQL_DATABASE: books_rental
+      ALLOW_EMPTY_PASSWORD: no
+
+  node_server:
+    build: .
+    container_name: node_server
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgresql
+    environment:
+      PORT: 3000
+      JWT_SECRET: a7f216d7446fa546014572ae38a4a822830246c821a919eefbce0c0d7b62db65
+      DATABASE_URL: postgresql://user:root@postgresql:5432/books_rental?schema=public
+
+volumes:
+  data_postgres:

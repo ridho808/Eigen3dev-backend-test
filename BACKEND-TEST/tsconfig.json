@@ -1,0 +1,73 @@
+{
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "include": [
+    "./src"
+  ],
+  "compilerOptions": {
+    "target": "ES2020",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "module": "commonjs",
+    "rootDir": "./src",
+    "moduleResolution": "Node",
+    "baseUrl": "./src",
+    "paths": {
+      "@utils": [
+        "commons/utils"
+      ],
+      "@utils/*": [
+        "commons/utils/*"
+      ],
+      "@auth/controller": [
+        "modules/authenticate/controller/authenticate.controller"
+      ],
+      "@auth/module": [
+        "modules/authenticate/authenticate.module"
+      ],
+      "@admin/controller": [
+        "modules/admin/controller/admin.controller"
+      ],
+      "@admin/module": [
+        "modules/admin/admin.module"
+      ],
+      "@auth/dto": [
+        "modules/authenticate/dto/create-authenticate.dto"
+      ],
+      "@middleware/validator": [
+        "commons/middleware/"
+      ],
+      "@config/config-app": [
+        "config/index.ts"
+      ],
+      "@borrowbooks/controller": [
+        "modules/borrowbook/controller/borrowbook.controller"
+      ],
+      "@borrowbooks/module": [
+        "modules/borrowbook/borrowbook.module"
+      ],
+      "@member/module": [
+        "modules/members/member.module"
+      ],
+      "@member/controller": [
+        "modules/members/controller/member.controller"
+      ],
+      "@books/module": [
+        "modules/books/book.module"
+      ],
+      "@books/service": [
+        "modules/books/services/book.service"
+      ],
+    },
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "outDir": "./dist/src",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+  }
+}

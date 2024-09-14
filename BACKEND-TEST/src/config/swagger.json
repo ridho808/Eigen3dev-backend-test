@@ -1,0 +1,542 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Books Rentals-EIGEN 3 BACKEND-DEV-TEST",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Admin > Auth",
+      "description": "ROUTER untuk authentication member dengan role admin"
+    },
+    {
+      "name": "Admin > Book",
+      "description": "ROUTER untuk management buku untuk member dengan role admin"
+    },
+    {
+      "name": "Member Auth",
+      "description": "ROUTER untuk authentication member non admin"
+    },
+    {
+      "name": "Book",
+      "description": "ROUTER untuk data-data buku"
+    },
+    {
+      "name": "Member",
+      "description": "ROUTER untuk data member"
+    },
+    {
+      "name": "Borrow book",
+      "description": "ROUTER untuk peminjaman buku"
+    }
+  ],
+  "paths": {
+    "/admin/signup": {
+      "post": {
+        "tags": [
+          "Admin > Auth"
+        ],
+        "summary": "Sign-up",
+        "description": "### **admin/signup**\n\nEndpoint ini digunakan untuk mendaftarkan akun sebagai administrator.\n\n**Request**\n\n- **Metode**: POST\n    \n- **URL**: `http://localhost:3000/admin/signup`\n    \n- **Body**:\n    \n    - `name` (string, required): Nama dari administrator.\n        \n    - `password` (string,required ): Kata sandi untuk administrator.\n        \n\n**Response**\n\nRespon dalam format JSON dan mencakup field-field berikut:\n\n``` json\n{\n    \"message\": \"Admin signed up successfully\",\n    \"tokens\": {\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiY29kZSI6Ik0wMDMiLCJuYW1lIjoiYWRtaW4gb25lIiwiYm9ycm93ZWRfY291bnQiOjAsInJvbGVfaWQiOjEsImNyZWF0ZWRfYXQiOiIyMDI0LTA5LTE0VDA1OjM4OjQ5LjQyNloiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wOS0xNFQwNTozODo0OS40MjZaIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzI2MjkyMzI5LCJleHAiOjE3MjYyOTQxMjl9.CZmxdIULMib-yEkfmN5P9bnqHURXcQ4FL5OCzjKjDTc\",\n        \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiY29kZSI6Ik0wMDMiLCJuYW1lIjoiYWRtaW4gb25lIiwiYm9ycm93ZWRfY291bnQiOjAsInJvbGVfaWQiOjEsImNyZWF0ZWRfYXQiOiIyMDI0LTA5LTE0VDA1OjM4OjQ5LjQyNloiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wOS0xNFQwNTozODo0OS40MjZaIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzI2MjkyMzI5LCJleHAiOjE3MjYzNzg3Mjl9.xPDMiZe7S_1GFStPMNcfHLQonWP_RBQnFZyeuGGg0IE\"\n    }\n}\n\n ```\n\n- Status: 201\n    \n- Content-Type: application/json\n    \n- access_token : tersimpan di cookies\n    \n- refresh_token : tersimpan di cookies",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "name": "admin two",
+                  "password": "password"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/admin/signin": {
+      "post": {
+        "tags": [
+          "Admin > Auth"
+        ],
+        "summary": "Sign-in",
+        "description": "### admin/signin\n\nEndpoint ini digunakan untuk otentikasi sebagai akun admin\n\n#### Request\n\n- Body (raw, JSON):\n    \n    - name (string, required): name dari akun admin.\n        \n    - password (string, required): password dari akun admin\n        \n\n#### Response\n\nFormat JSON\n\n``` json\n{\n    \"message\": \"Admin signed in successfully\",\n    \"tokens\": {\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiY29kZSI6Ik0wMDMiLCJuYW1lIjoiYWRtaW4gb25lIiwiYm9ycm93ZWRfY291bnQiOjAsInJvbGVfaWQiOjEsImNyZWF0ZWRfYXQiOiIyMDI0LTA5LTE0VDA1OjM4OjQ5LjQyNloiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wOS0xNFQwNTozODo0OS40MjZaIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzI2MjkyMzQ5LCJleHAiOjE3MjYyOTQxNDl9.FXcOn203OYZ1YM1NQfxi7upN7mMA-PYtfJ1yPu_ai64\",\n        \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiY29kZSI6Ik0wMDMiLCJuYW1lIjoiYWRtaW4gb25lIiwiYm9ycm93ZWRfY291bnQiOjAsInJvbGVfaWQiOjEsImNyZWF0ZWRfYXQiOiIyMDI0LTA5LTE0VDA1OjM4OjQ5LjQyNloiLCJ1cGRhdGVkX2F0IjoiMjAyNC0wOS0xNFQwNTozODo0OS40MjZaIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzI2MjkyMzQ5LCJleHAiOjE3MjYzNzg3NDl9.yY_OIlLZhnC0SasRjzkDC3HIGSYNWee7iQC18k4gtw8\"\n    }\n}\n\n ```\n\n- Status: 200 OK\n    \n- Content-Type: application/json\n    \n- access_token : tersimpan di cookies\n    \n- refresh_token : tersimpan di cookies",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "name": "admin two",
+                  "password": "password"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/admin/signout": {
+      "delete": {
+        "tags": [
+          "Admin > Auth"
+        ],
+        "summary": "Sign-out",
+        "description": "### admin/signout\n\nEndpoint ini digunakan untuk logout/keluar dari sistem sebagai admin.\n\n#### Response\n\nFormat JSON\n\n``` json\n{\n    \"message\": \"Member signed out successfully\"\n}\n\n ```\n\n- Status: 200 OK\n    \n- Content-Type: application/json\n    \n- access_token : terhapus di cookies\n    \n- refresh_token : terhapus di cookies",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/admin/refresh": {
+      "get": {
+        "tags": [
+          "Admin > Auth"
+        ],
+        "summary": "Refresh-token",
+        "description": "### admin/refresh-token\n\nEndpoint ini digunakan untuk medapatkan access token dan refresh token ketika token sudah expired/kadaluwarsa\n\n### Response\n\nFormat JSON\n\n``` json\n{\n    \"message\": \"Access token refreshed successfully\",\n    \"tokens\": {\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiY29kZSI6Ik0wMDMiLCJuYW1lIjoiYWRtaW4gb25lIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzI2MjkzNTk4LCJleHAiOjE3MjYyOTUzOTh9.CIxDtuwyJFmhJaoJ5JXJYHXONwmz7yEs5iRpd2uiiVM\",\n        \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiY29kZSI6Ik0wMDMiLCJuYW1lIjoiYWRtaW4gb25lIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzI2MjkzNTk4LCJleHAiOjE3MjYzNzk5OTh9.w_KZZZY5Vi4DSv1q9mOsJRj-A1F_n2NTBSQc35mozJY\"\n    }\n}\n\n ```\n\n- Status: 200 OK\n    \n- Content-Type: application/json\n    \n- access_token : tersimpan di cookies\n    \n- refresh_token : tersimpan di cookies",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/books": {
+      "post": {
+        "tags": [
+          "Admin > Book"
+        ],
+        "summary": "Add Book",
+        "description": "### /books\n\nEndpoint yang di gunakan untuk menambahkan buku baru kedalam database\n\n#### Request Body\n\n- `code` (string, required): code unik buku.\n    \n- `title` (string, required): nama judul buku.\n    \n- `author` (string, required): nama pengarang buku.\n    \n\n#### Response\n\n``` json\n{\n    \"message\": \"Success Add book\",\n    \"books\": {\n        \"id\": 7,\n        \"code\": \"TB-05\",\n        \"title\": \"Thick face Black heart\",\n        \"author\": \"Chin Ning Chu\",\n        \"is_available\": true,\n        \"stock\": 1,\n        \"created_at\": \"2024-09-14T06:09:01.692Z\",\n        \"updated_at\": \"2024-09-14T06:09:01.692Z\"\n    }\n}\n\n ```\n\n- Status: 200\n    \n- Content-Type: application/json",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "code": "TB-05",
+                  "title": "Thick face Black heart",
+                  "author": "Chin Ning Chu"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "summary": "Get All Book",
+        "description": "### /books\n\nEndpoint ini diginakan untuk mendapatkan semua data buku yang tersedia\n\n### Response\n\n``` json\n{\n    \"message\": \"Success Gets all books\",\n    \"books\": [\n        {\n            \"id\": 1,\n            \"code\": \"JK-45\",\n            \"title\": \"Harry Potter\",\n            \"author\": \"J.K Rowling\",\n            \"is_available\": true,\n            \"stock\": 1,\n            \"created_at\": \"2024-09-14T04:48:10.495Z\",\n            \"updated_at\": \"2024-09-14T05:37:22.438Z\"\n        },\n        {\n            \"id\": 2,\n            \"code\": \"SHR-1\",\n            \"title\": \"A Study in Scarlet\",\n            \"author\": \"Arthur Conan Doyle\",\n            \"is_available\": true,\n            \"stock\": 1,\n            \"created_at\": \"2024-09-14T04:48:10.495Z\",\n            \"updated_at\": \"2024-09-14T04:48:10.495Z\"\n        },\n        {\n            \"id\": 3,\n            \"code\": \"TW-11\",\n            \"title\": \"Twilight\",\n            \"author\": \"Stephenie Meyer\",\n            \"is_available\": true,\n            \"stock\": 1,\n            \"created_at\": \"2024-09-14T04:48:10.495Z\",\n            \"updated_at\": \"2024-09-14T04:48:10.495Z\"\n        },\n        {\n            \"id\": 4,\n            \"code\": \"HOB-83\",\n            \"title\": \"The Hobbit, or There and Back Again\",\n            \"author\": \"J.R.R. Tolkien\",\n            \"is_available\": true,\n            \"stock\": 1,\n            \"created_at\": \"2024-09-14T04:48:10.495Z\",\n            \"updated_at\": \"2024-09-14T04:48:10.495Z\"\n        },\n        {\n            \"id\": 5,\n            \"code\": \"NRN-7\",\n            \"title\": \"The Lion, the Witch and the Wardrobe\",\n            \"author\": \"C.S. Lewis\",\n            \"is_available\": true,\n            \"stock\": 1,\n            \"created_at\": \"2024-09-14T04:48:10.495Z\",\n            \"updated_at\": \"2024-09-14T04:48:10.495Z\"\n        }\n    ]\n}\n\n ```",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/books/8": {
+      "patch": {
+        "tags": [
+          "Admin > Book"
+        ],
+        "summary": "Update Book By Id",
+        "description": "### /books/:id\n\nEndpoin ini di gunakan untuk mengubah data buku dengan syarat akun member berstatus admin\n\n#### Request Body\n\n- `code` (string): code unik buku.\n    \n- `title` (string): nama judul buku.\n    \n- `author` (string): nama pengarang buku.\n    \n\n#### Response\n\n``` json\n{\n    \"message\": \"Success Update book\",\n    \"books\": {\n        \"id\": 7,\n        \"code\": \"TB-00\",\n        \"title\": \"Thick face Black heart\",\n        \"author\": \"Chin Zhu\",\n        \"is_available\": true,\n        \"stock\": 1,\n        \"created_at\": \"2024-09-14T06:09:01.692Z\",\n        \"updated_at\": \"2024-09-14T06:12:02.461Z\"\n    }\n}\n\n ```\n\n- Status: 200\n    \n- Content-Type: application/json",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "code": "TB-00",
+                  "title": "Thick face Black heart",
+                  "author": "Chin Zhu"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Admin > Book"
+        ],
+        "summary": "Delete Book By Id",
+        "description": "### /book/:id\n\nEndpoint ini digunakan untuk menghapus buku yang ada di database\n\n#### Response\n\n``` json\n{\n    \"message\": \"\",\n    \"books\": {\n        \"id\": 0,\n        \"code\": \"\",\n        \"title\": \"\",\n        \"author\": \"\",\n        \"is_available\": true,\n        \"stock\": 0,\n        \"created_at\": \"\",\n        \"updated_at\": \"\"\n    }\n}\n\n ```\n\n- Status: 200\n    \n- Content-Type: application/json",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/auth/signup": {
+      "post": {
+        "tags": [
+          "Member Auth"
+        ],
+        "summary": "Sign-up",
+        "description": "### auth/signup\n\nEndpoint ini digunakan untuk mendaftar sebagai member\n\n#### Request Body\n\n- `name` (string, required): nama untuk member\n    \n- `password` (string, required): password untuk member\n    \n\n#### Response\n\n``` json\n{\n    \"message\": \"Member created successfully\",\n    \"data\": {\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiY29kZSI6Ik0wMDQiLCJuYW1lIjoiYWt1biBvbmUiLCJyb2xlIjoibWVtYmVyIiwiaWF0IjoxNzI2Mjk1MTg0LCJleHAiOjE3MjYyOTU3ODR9.nYBrJeqVk-NYlkeph3ZEdBgOBu61VsYFfJgsbKYBDuo\",\n        \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiY29kZSI6Ik0wMDQiLCJuYW1lIjoiYWt1biBvbmUiLCJyb2xlIjoibWVtYmVyIiwiaWF0IjoxNzI2Mjk1MTg0LCJleHAiOjE3MjYzODE1ODR9.z8ano7rtplVYwTW-17clq9yY97sP3vUSLlE1ljb6ywk\"\n    }\n}\n\n ```\n\n- Status: 201\n    \n- Content-Type: application/json",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "name": "akun three",
+                  "password": "password"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/auth/signin": {
+      "post": {
+        "tags": [
+          "Member Auth"
+        ],
+        "summary": "Sign-in",
+        "description": "### auth/signin\n\nEndpoint ini digunakan untuk masuk/login sebagai member\n\n#### Request Body\n\n- `name` (string, required): nama untuk member\n    \n- `password` (string, required): password untuk member\n    \n\n#### Response\n\n``` json\n{\n    \"message\": \"Member signed in successfully\",\n    \"data\": {\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiY29kZSI6Ik0wMDQiLCJuYW1lIjoiYWt1biBvbmUiLCJyb2xlIjoibWVtYmVyIiwiaWF0IjoxNzI2Mjk1MjM1LCJleHAiOjE3MjYyOTU4MzV9.QkyJgc-bvWs_QvqpKHpSNRPTJwsPW5MYxdmNuvKaPeY\",\n        \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiY29kZSI6Ik0wMDQiLCJuYW1lIjoiYWt1biBvbmUiLCJyb2xlIjoibWVtYmVyIiwiaWF0IjoxNzI2Mjk1MjM1LCJleHAiOjE3MjYzODE2MzV9.bMiZPNdT5lTCVON-4RCcB7OZjF3Hjz0UaxcRLvZoJZY\"\n    }\n}\n\n ```\n\n- Status: 200\n    \n- Content-Type: application/json",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "name": "akun three",
+                  "password": "password"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "get": {
+        "tags": [
+          "Member Auth"
+        ],
+        "summary": "Refresh-token",
+        "description": "### auth/refresh\n\nEndpoint ini digunakan untuk mendapatkan access_token dan refresh_token ketika token sudah expired\n\n##### Response\n\n``` json\n{\n    \"message\": \"Token refreshed successfully\",\n    \"data\": {\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiY29kZSI6Ik0wMDQiLCJuYW1lIjoiYWt1biBvbmUiLCJyb2xlIjoibWVtYmVyIiwiaWF0IjoxNzI2Mjk1MzI2LCJleHAiOjE3MjYyOTcxMjZ9.H4Iyj6QH93_1d62J47m_ot7gu8pG5yvZKUpy69H8eo8\",\n        \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiY29kZSI6Ik0wMDQiLCJuYW1lIjoiYWt1biBvbmUiLCJyb2xlIjoibWVtYmVyIiwiaWF0IjoxNzI2Mjk1MzI2LCJleHAiOjE3MjYzODE3MjZ9.AN9e7wa7m_8FsvdoPD8oBeO3nG4gzugj9pWfmdG-i7I\"\n    }\n}\n\n ```\n\n- Status: 200\n    \n- Content-Type: application/json",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/auth/signout": {
+      "delete": {
+        "tags": [
+          "Member Auth"
+        ],
+        "summary": "Sign-out",
+        "description": "### auth/signout\n\nEndpoint ini digunakan untuk logout sebagai member\n\n#### Request\n\n- Method: DELETE\n    \n- Cookies : required\n    \n\n#### Response\n\n``` json\n{\n    \"message\": \"Member signed out successfully\"\n}\n\n ```\n\n- Status: 200\n    \n- Content-Type: application/json",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/books/1": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "summary": "Get One Book By Id",
+        "description": "### /books/:id\n\nEndpoint ini digunakan untuk mendapatkan data buku sesuai id\n\n#### Request:\n\n- params : id\n    \n\n### Response :\n\n``` json\n{\n    \"message\": \"Success Get book by id\",\n    \"books\": {\n        \"id\": 1,\n        \"code\": \"JK-45\",\n        \"title\": \"Harry Potter\",\n        \"author\": \"J.K Rowling\",\n        \"is_available\": true,\n        \"stock\": 1,\n        \"created_at\": \"2024-09-14T04:48:10.495Z\",\n        \"updated_at\": \"2024-09-14T05:37:22.438Z\"\n    }\n}\n\n ```",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/books/available": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "summary": "Get Available Book",
+        "description": "### /books/available\n\nEndpoint ini digunakan untuk mendapatkan data buku yang sedang tersedia\n\n#### Response :\n\n``` json\n{\n    \"message\": \"Success Get available books\",\n    \"books\": [\n        {\n            \"id\": 2,\n            \"code\": \"SHR-1\",\n            \"title\": \"A Study in Scarlet\",\n            \"author\": \"Arthur Conan Doyle\",\n            \"is_available\": true,\n            \"stock\": 1,\n            \"created_at\": \"2024-09-14T04:48:10.495Z\",\n            \"updated_at\": \"2024-09-14T04:48:10.495Z\"\n        },\n        {\n            \"id\": 3,\n            \"code\": \"TW-11\",\n            \"title\": \"Twilight\",\n            \"author\": \"Stephenie Meyer\",\n            \"is_available\": true,\n            \"stock\": 1,\n            \"created_at\": \"2024-09-14T04:48:10.495Z\",\n            \"updated_at\": \"2024-09-14T04:48:10.495Z\"\n        },\n        {\n            \"id\": 4,\n            \"code\": \"HOB-83\",\n            \"title\": \"The Hobbit, or There and Back Again\",\n            \"author\": \"J.R.R. Tolkien\",\n            \"is_available\": true,\n            \"stock\": 1,\n            \"created_at\": \"2024-09-14T04:48:10.495Z\",\n            \"updated_at\": \"2024-09-14T04:48:10.495Z\"\n        },\n        {\n            \"id\": 5,\n            \"code\": \"NRN-7\",\n            \"title\": \"The Lion, the Witch and the Wardrobe\",\n            \"author\": \"C.S. Lewis\",\n            \"is_available\": true,\n            \"stock\": 1,\n            \"created_at\": \"2024-09-14T04:48:10.495Z\",\n            \"updated_at\": \"2024-09-14T04:48:10.495Z\"\n        },\n        {\n            \"id\": 1,\n            \"code\": \"JK-45\",\n            \"title\": \"Harry Potter\",\n            \"author\": \"J.K Rowling\",\n            \"is_available\": true,\n            \"stock\": 1,\n            \"created_at\": \"2024-09-14T04:48:10.495Z\",\n            \"updated_at\": \"2024-09-14T05:37:22.438Z\"\n        }\n    ]\n}\n\n ```",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/books/unavailable": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "summary": "Get Unavailable Book",
+        "description": "### /books/unavailable\n\nEndpoint ini digunakan untuk mendapatkan databuku yang tidak tersedia\n\n#### Response :\n\n``` json\n{\n    \"message\": \"Success Get unavailable books\",\n    \"books\": [\n        {\n            \"id\": 1,\n            \"code\": \"JK-45\",\n            \"title\": \"Harry Potter\",\n            \"author\": \"J.K Rowling\",\n            \"is_available\": false,\n            \"stock\": 0,\n            \"created_at\": \"2024-09-14T04:48:10.495Z\",\n            \"updated_at\": \"2024-09-14T06:38:46.694Z\"\n        }\n    ]\n}\n\n ```",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/books/author": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "summary": "Get All Book By Author",
+        "description": "### /books/author\n\nEndpoint ini digunakan untuk mendapatkan data buku sesaui nama pengarang\n\n#### Request :\n\n- query params: name\n    \n\n#### Response :\n\n``` json\n{\n    \"message\": \"Success Get books by author\",\n    \"books\": [\n        {\n            \"id\": 1,\n            \"code\": \"JK-45\",\n            \"title\": \"Harry Potter\",\n            \"author\": \"J.K Rowling\",\n            \"is_available\": false,\n            \"stock\": 0,\n            \"created_at\": \"2024-09-14T04:48:10.495Z\",\n            \"updated_at\": \"2024-09-14T06:38:46.694Z\"\n        }\n    ]\n}\n\n ```",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "example": "J.K Rowling"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/members": {
+      "get": {
+        "tags": [
+          "Member"
+        ],
+        "summary": "Get All Member",
+        "description": "### /members\n\n#### Response :\n\n``` json\n{\n    \"message\": \"All members retrieved successfully\",\n    \"members\": [\n        {\n            \"id\": 1,\n            \"name\": \"doolean\",\n            \"code\": \"M001\",\n            \"borrowed_count\": 0,\n            \"borrowed_books\": []\n        },\n        {\n            \"id\": 2,\n            \"name\": \"akun kedua\",\n            \"code\": \"M002\",\n            \"borrowed_count\": 0,\n            \"borrowed_books\": []\n        },\n        {\n            \"id\": 3,\n            \"name\": \"admin one\",\n            \"code\": \"M003\",\n            \"borrowed_count\": 0,\n            \"borrowed_books\": []\n        },\n        {\n            \"id\": 4,\n            \"name\": \"akun one\",\n            \"code\": \"M004\",\n            \"borrowed_count\": 1,\n            \"borrowed_books\": [\n                {\n                    \"book_code\": \"JK-45\",\n                    \"borrow_date\": \"2024-09-14T06:38:46.658Z\",\n                    \"status_return\": false\n                }\n            ]\n        }\n    ]\n}\n\n ```",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/members/4": {
+      "get": {
+        "tags": [
+          "Member"
+        ],
+        "summary": "Get Member By Id",
+        "description": "### /members/:id\n\n#### Response :\n\n``` json\n{\n    \"message\": \"Get Member successfully\",\n    \"members\": {\n        \"id\": 4,\n        \"name\": \"akun one\",\n        \"code\": \"M004\",\n        \"borrowed_count\": 1,\n        \"borrowed_books\": [\n            {\n                \"book_code\": \"JK-45\",\n                \"borrow_date\": \"2024-09-14T06:38:46.658Z\",\n                \"status_return\": false\n            }\n        ]\n    }\n}\n ```",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/members/penalties": {
+      "get": {
+        "tags": [
+          "Member"
+        ],
+        "summary": "Get Member has pinalty",
+        "description": "### /members/penalties\n\n#### Response:\n\n``` json\n{\n    \"message\": \"Get Member Pinalties successfully\",\n    \"members\": [\n        {\n            \"id\": 1,\n            \"member_id\": 1,\n            \"start_date\": \"2024-09-14T05:14:12.916Z\",\n            \"end_date\": \"2024-09-16T17:00:00.000Z\",\n            \"created_at\": \"2024-09-14T05:14:12.916Z\",\n            \"updated_at\": \"2024-09-14T05:14:12.916Z\",\n            \"member\": {\n                \"name\": \"doolean\",\n                \"code\": \"M001\"\n            }\n        },\n        {\n            \"id\": 2,\n            \"member_id\": 2,\n            \"start_date\": \"2024-09-14T05:37:22.428Z\",\n            \"end_date\": \"2024-09-17T05:37:22.426Z\",\n            \"created_at\": \"2024-09-14T05:37:22.428Z\",\n            \"updated_at\": \"2024-09-14T05:37:22.428Z\",\n            \"member\": {\n                \"name\": \"akun kedua\",\n                \"code\": \"M002\"\n            }\n        }\n    ]\n}\n ```",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/borrowbooks": {
+      "post": {
+        "tags": [
+          "Borrow book"
+        ],
+        "summary": "Borrow Book",
+        "description": "### /borrowbooks\n\nEndpoint ini digunakan untuk meminjam buku\n\n### Request\n\n- Authorization : access_token\n    \n- Request body :\n    \n    - code : berisikan code buku\n        \n    - title : berisikan nama buku\n        \n\n#### Response:\n\n``` json\n{\n    \"message\": \"Borrow a Book successfully\",\n    \"borrow\": {\n        \"book\": {\n            \"title\": \"Harry Potter\",\n            \"code\": \"JK-45\",\n            \"author\": \"J.K Rowling\"\n        }\n    }\n}\n\n ```",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "code": "JK-45",
+                  "title": "Harry Potter"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/borrowbooks/returnbook": {
+      "post": {
+        "tags": [
+          "Borrow book"
+        ],
+        "summary": "Return Borrow Book",
+        "description": "### /borrowbooks/returnbook\n\nEndpoint ini digunakan untuk mengembalikan buku yang di pinjamkan jika waktu peminjaman lebih dari 7 hari maka member akan di kenapan pinalti\n\n#### Request :\n\n- authorization : access_token\n    \n- Request Body:\n    \n    - code : berisikan code buku\n        \n    - title : berisikan nama buku\n        \n\n#### Response :\n\n``` json\n{\n    \"message\": \"Return a Book successfully\",\n    \"borrow\": {\n        \"id\": 9,\n        \"member_id\": 4,\n        \"book_code\": \"JK-45\",\n        \"borrow_date\": \"2024-09-14T06:38:46.658Z\",\n        \"return_date\": \"2024-09-14T06:55:46.416Z\",\n        \"status_return\": true,\n        \"created_at\": \"2024-09-14T06:38:46.658Z\",\n        \"updated_at\": \"2024-09-14T06:55:46.418Z\"\n    }\n}\n\n ```",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "code": "JK-45",
+                  "title": "Harry Potter"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}
