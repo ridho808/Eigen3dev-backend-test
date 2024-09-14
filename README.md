@@ -5,6 +5,7 @@
 #### Diagram ERD
 
 
+![BORROW_BOOKS drawio (1)](https://github.com/user-attachments/assets/a6c78722-36c2-4c6d-bef7-c46ad165149c)
 
 ---
 
